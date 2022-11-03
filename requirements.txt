@@ -1,5 +1,5 @@
 streamlit
-scipy.stats
+scipy
 arch
 yfinance
 pandas
