@@ -1,0 +1,8 @@
+streamlit
+scipy.stats
+arch
+yfinance
+pandas
+numpy
+datetime
+math
