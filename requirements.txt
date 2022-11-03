@@ -1,8 +1,8 @@
 streamlit
-scipy.stats
+scipy
 arch
 yfinance
 pandas
 numpy
 datetime
-math
+math==3.11.0
