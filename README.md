@@ -1,4 +1,4 @@
-# App Analise de Probabilidade
+# App Analise de Probabilidade 📈
 Este repositório contém um aplicativo Python Streamlit para Análise de Probabilidade de Ações.
 
 ## Deployed App
