@@ -47,14 +47,14 @@ def probabilidade():
     prob_acima = 1/2 * erfc_d1_acima * 100
 
     cols = st.columns((1 ,1 , 1))
-    cols[0].metric(f'Terminar Abaixo de $ {menor_preco}', value=f'{prob_abaixo:.2f}%')
-    cols[1].metric(f'Terminar entre \\$ {menor_preco} e $ {maior_preco}', value=f'{100 - (prob_abaixo + prob_acima):.2f}%')
-    cols[2].metric(f'Terminar Acima de $ {maior_preco}', value=f'{prob_acima:.2f}%')
+    cols[0].metric(f'Terminar Abaixo de \\$ {menor_preco}', value=f'{prob_abaixo:.2f}%')
+    cols[1].metric(f'Terminar entre \\$ {menor_preco} e \\$ {maior_preco}', value=f'{100 - (prob_abaixo + prob_acima):.2f}%')
+    cols[2].metric(f'Terminar Acima de \\$ {maior_preco}', value=f'{prob_acima:.2f}%')
 
 
 # Retorna a Volatilidade Histórica e a Volatilidade Garch
 def volatilidade():
-    prices = yf.download(tickers=ativo, period=periodo)['Adj Close'].dropna()
+    prices = yf.download(tickers=ativo, period=periodo, auto_adjust=False)['Adj Close'].dropna()
 
     log_returns = np.log(prices/prices.shift(1))
 
@@ -69,7 +69,7 @@ def volatilidade():
     gama = 1 - alfa - beta
     var = omega / gama
     garch = (var * 252)**(1/2)
-    hist = ret.std() * (252**(1/2))
+    hist = ret.std().item() * (252**(1/2))
 
     cols = st.columns((1, 1))
     cols[0].markdown('# 📈📉')
