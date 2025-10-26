@@ -250,34 +250,78 @@ def probabilidade():
 
     cols = st.columns(3)
     with cols[0]:
-        risk_class = "risk-high" if prob_abaixo > 50 else "risk-medium" if prob_abaixo > 25 else "risk-low"
+        # Classificação de risco para probabilidade abaixo do menor preço
+        if prob_abaixo > 40:
+            risk_class = "risk-high"
+            risk_label = "ALTO"
+        elif prob_abaixo > 20:
+            risk_class = "risk-medium"
+            risk_label = "MÉDIO"
+        else:
+            risk_class = "risk-low"
+            risk_label = "BAIXO"
+
         st.markdown(f"""
             <div class="metric-card">
                 <strong>Abaixo de $ {menor_preco}</strong>
             </div>
         """, unsafe_allow_html=True)
-        
+
         st.metric(label="", value=f'{prob_abaixo:.1f}%')
-        st.markdown(f'<div class="result-badge {risk_class}">{"ALTO" if prob_abaixo > 50 else "MÉDIO" if prob_abaixo > 25 else "BAIXO"} RISCO</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="result-badge {risk_class}">{risk_label} RISCO</div>',
+            unsafe_allow_html=True
+        )
     
     with cols[1]:
+        # Classificação de risco com base na probabilidade de ficar entre os strikes
+        if prob_entre > 80:
+            risk_class = "risk-low"
+            risk_label = "BAIXO"
+        elif prob_entre > 68:
+            risk_class = "risk-medium"
+            risk_label = "MÉDIO"
+        else:
+            risk_class = "risk-high"
+            risk_label = "ALTO"
+
         st.markdown(f"""
             <div class="metric-card">
                 <strong>Entre $ {menor_preco} - $ {maior_preco}</strong>
             </div>
         """, unsafe_allow_html=True)
+
         st.metric(label="", value=f'{prob_entre:.1f}%')
+
+        st.markdown(
+            f'<div class="result-badge {risk_class}">{risk_label} RISCO</div>',
+            unsafe_allow_html=True
+        )
 
     
     with cols[2]:
-        risk_class = "risk-high" if prob_acima > 50 else "risk-medium" if prob_acima > 25 else "risk-low"
+        # Classificação de risco para probabilidade acima do maior preço
+        if prob_acima > 40:
+            risk_class = "risk-high"
+            risk_label = "ALTO"
+        elif prob_acima > 20:
+            risk_class = "risk-medium"
+            risk_label = "MÉDIO"
+        else:
+            risk_class = "risk-low"
+            risk_label = "BAIXO"
+
         st.markdown(f"""
             <div class="metric-card">
                 <strong>Acima de $ {maior_preco}</strong>
             </div>
         """, unsafe_allow_html=True)
+
         st.metric(label="", value=f'{prob_acima:.1f}%')
-        st.markdown(f'<div class="result-badge {risk_class}">{"ALTO" if prob_acima > 50 else "MÉDIO" if prob_acima > 25 else "BAIXO"} POTENCIAL</div>', unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="result-badge {risk_class}">{risk_label} RISCO</div>',
+            unsafe_allow_html=True
+        )
 
 def volatilidade():
     prices = yf.download(tickers=ativo, period=periodo, auto_adjust=False)['Adj Close'].dropna()
@@ -403,7 +447,7 @@ if days_tab:
 
 # Calculadora de Probabilidade
 if st.session_state.current_tab == 'Probabilidade':
-    st.markdown('<div class="calculator-card">', unsafe_allow_html=True)
+
     
     st.markdown('<div class="section-title">📊 Calculadora de Probabilidade</div>', unsafe_allow_html=True)
     
@@ -432,12 +476,9 @@ if st.session_state.current_tab == 'Probabilidade':
             probabilidade()
         else:
             st.error("⚠️ Por favor, insira valores válidos para todos os campos")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # Calculadora de Volatilidade
 elif st.session_state.current_tab == 'Volatilidade':
-    st.markdown('<div class="calculator-card">', unsafe_allow_html=True)
     
     st.markdown('<div class="section-title">📈 Calculadora de Volatilidade</div>', unsafe_allow_html=True)
     
@@ -455,12 +496,9 @@ elif st.session_state.current_tab == 'Volatilidade':
             volatilidade()
         except Exception as e:
             st.error(f"⚠️ Erro ao calcular volatilidade: {str(e)}")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # Calculadora de Dias Úteis
 else:
-    st.markdown('<div class="calculator-card">', unsafe_allow_html=True)
     
     st.markdown('<div class="section-title">📅 Calculadora de Dias Úteis</div>', unsafe_allow_html=True)
     
@@ -476,8 +514,6 @@ else:
     if calcular_dias:
         st.markdown('<div class="section-title">📋 Resultado do Período</div>', unsafe_allow_html=True)
         dias_uteis()
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # Footer
 st.markdown("""
