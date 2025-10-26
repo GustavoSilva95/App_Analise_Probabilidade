@@ -39,7 +39,7 @@ def carregar_feriados():
     
 # Configuração da página
 st.set_page_config(
-    page_title="Quantum Analytics",
+    page_title="VolLab",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="collapsed"
@@ -184,6 +184,25 @@ st.markdown("""
         font-weight: 600;
         font-size: 0.9rem;
     }
+
+    /* Centraliza o conteúdo do st.metric, mantendo a estilização Streamlit */
+    div[data-testid="stMetric"] {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centraliza horizontalmente o valor e o delta */
+        width: 100%;
+    }
+
+    /* Opcional: Centraliza o label se ele for usado (o seu está vazio) */
+    div[data-testid="stMetricLabel"] > div {
+        text-align: center;
+        width: 100%;
+    }
+    
+    /* Opcional: Ajuste para o valor (opcional, pois o align-items deve cuidar disso) */
+    div[data-testid="stMetricValue"] {
+        text-align: center;
+    }
     
     .risk-high { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
     .risk-medium { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
@@ -232,22 +251,33 @@ def probabilidade():
     cols = st.columns(3)
     with cols[0]:
         risk_class = "risk-high" if prob_abaixo > 50 else "risk-medium" if prob_abaixo > 25 else "risk-low"
-        st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-        st.metric(f'**Abaixo de R$ {menor_preco}**', value=f'{prob_abaixo:.1f}%')
+        st.markdown(f"""
+            <div class="metric-card">
+                <strong>Abaixo de $ {menor_preco}</strong>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.metric(label="", value=f'{prob_abaixo:.1f}%')
         st.markdown(f'<div class="result-badge {risk_class}">{"ALTO" if prob_abaixo > 50 else "MÉDIO" if prob_abaixo > 25 else "BAIXO"} RISCO</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     with cols[1]:
-        st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-        st.metric(f'**Entre R$ {menor_preco} - R$ {maior_preco}**', value=f'{prob_entre:.1f}%')
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+            <div class="metric-card">
+                <strong>Entre $ {menor_preco} - $ {maior_preco}</strong>
+            </div>
+        """, unsafe_allow_html=True)
+        st.metric(label="", value=f'{prob_entre:.1f}%')
+
     
     with cols[2]:
         risk_class = "risk-high" if prob_acima > 50 else "risk-medium" if prob_acima > 25 else "risk-low"
-        st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-        st.metric(f'**Acima de R$ {maior_preco}**', value=f'{prob_acima:.1f}%')
+        st.markdown(f"""
+            <div class="metric-card">
+                <strong>Acima de $ {maior_preco}</strong>
+            </div>
+        """, unsafe_allow_html=True)
+        st.metric(label="", value=f'{prob_acima:.1f}%')
         st.markdown(f'<div class="result-badge {risk_class}">{"ALTO" if prob_acima > 50 else "MÉDIO" if prob_acima > 25 else "BAIXO"} POTENCIAL</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
 def volatilidade():
     prices = yf.download(tickers=ativo, period=periodo, auto_adjust=False)['Adj Close'].dropna()
@@ -268,16 +298,22 @@ def volatilidade():
 
     cols = st.columns(2)
     with cols[0]:
-        st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-        st.metric('**Volatilidade Histórica**', value=f'{hist * 100:.2f}%')
-        st.markdown('<div style="color: #94a3b8; font-size: 0.9rem;">Baseada em dados históricos</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+            <div class="metric-card">
+                <strong>EVolatilidade Histórica</strong>
+            </div>
+        """, unsafe_allow_html=True)
+        st.metric(label="", value=f'{hist * 100:.2f}%')
+        st.markdown('<div style="color: #94a3b8; font-size: 0.9rem; text-align: center;">Baseada em dados históricos</div>', unsafe_allow_html=True)
     
     with cols[1]:
-        st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-        st.metric('**Volatilidade GARCH**', value=f'{garch * 100:.2f}%')
-        st.markdown('<div style="color: #94a3b8; font-size: 0.9rem;">Modelo preditivo avançado</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown(f"""
+            <div class="metric-card">
+                <strong>Volatilidade GARCH</strong>
+            </div>
+        """, unsafe_allow_html=True)
+        st.metric(label="", value=f'{garch * 100:.2f}%')
+        st.markdown('<div style="color: #94a3b8; font-size: 0.9rem; text-align: center;">Modelo preditivo avançado</div>', unsafe_allow_html=True)
 
 def iterdates(data1, data2):
     global one_day
@@ -312,29 +348,37 @@ def dias_uteis():
         
         cols = st.columns(3)
         with cols[0]:
-            st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-            st.metric('**Dias Úteis**', value=f'{dias_u}')
-            st.markdown('<div style="color: #94a3b8; font-size: 0.9rem;">Dias de negociação</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f"""
+                <div class="metric-card">
+                    <strong>Dias Úteis</strong>
+                </div>
+            """, unsafe_allow_html=True)
+            st.metric(label="", value=f'{dias_u}')
+            st.markdown('<div style="color: #94a3b8; font-size: 0.9rem; text-align: center;">Dias de negociação</div>', unsafe_allow_html=True)
         
         with cols[1]:
-            st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-            st.metric('**Feriados**', value=f'{feriad}')
-            st.markdown('<div style="color: #94a3b8; font-size: 0.9rem;">Dias não úteis</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f"""
+                <div class="metric-card">
+                    <strong>Feriados</strong>
+                </div>
+            """, unsafe_allow_html=True)
+            st.metric(label="", value=f'{feriad}')
         
         with cols[2]:
-            st.markdown(f'<div class="metric-card">', unsafe_allow_html=True)
-            st.metric('**Dias Corridos**', value=f'{dias_c}')
-            st.markdown('<div style="color: #94a3b8; font-size: 0.9rem;">Total do período</div>', unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f"""
+                <div class="metric-card">
+                    <strong>Dias Corridos</strong>
+                </div>
+            """, unsafe_allow_html=True)
+            st.metric(label="", value=f'{dias_c}')
+            st.markdown('<div style="color: #94a3b8; font-size: 0.9rem; text-align: center;">Total do período</div>', unsafe_allow_html=True)
             
     except Exception as e:
         st.error(f"Erro ao calcular dias úteis: {str(e)}")
 
 # Header Principal
-st.markdown('<div class="header-title">Quantum Analytics</div>', unsafe_allow_html=True)
-st.markdown('<div class="header-subtitle">Análise Quantitativa Avançada para Mercado Financeiro</div>', unsafe_allow_html=True)
+st.markdown('<div class="header-title">VolLab</div>', unsafe_allow_html=True)
+st.markdown('<div class="header-subtitle">Plataforma de Apoio para Traders de Opções</div>', unsafe_allow_html=True)
 
 # Navegação por Tabs
 col1, col2, col3 = st.columns([1, 1, 1])
