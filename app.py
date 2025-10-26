@@ -48,7 +48,7 @@ def probabilidade():
 
     cols = st.columns((1 ,1 , 1))
     cols[0].metric(f'Terminar Abaixo de $ {menor_preco}', value=f'{prob_abaixo:.2f}%')
-    cols[1].metric(f'Terminar entre $ {menor_preco} e $ {maior_preco}', value=f'{100 - (prob_abaixo + prob_acima):.2f}%')
+    cols[1].metric(f'Terminar entre \\$ {menor_preco} e $ {maior_preco}', value=f'{100 - (prob_abaixo + prob_acima):.2f}%')
     cols[2].metric(f'Terminar Acima de $ {maior_preco}', value=f'{prob_acima:.2f}%')
 
 
