@@ -40,7 +40,7 @@ def carregar_feriados():
 # Configuração da página
 st.set_page_config(
     page_title="VolLab",
-    page_icon="📊",
+    page_icon="💰",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -519,7 +519,7 @@ else:
 st.markdown("""
 <div style="text-align: center; color: #64748b; margin-top: 3rem; padding: 2rem;">
     <hr style="border-color: #334155; margin-bottom: 1rem;">
-    <div>Quantum Analytics v2.0 • Desenvolvido por Gustavo Silva</div>
+    <div>VolLab v2.0 • Desenvolvido por Gustavo Silva</div>
     <div style="font-size: 0.8rem; margin-top: 0.5rem;">
         Ferramenta profissional para análise quantitativa de ativos financeiros
     </div>
