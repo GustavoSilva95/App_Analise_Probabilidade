@@ -344,7 +344,7 @@ def volatilidade():
     with cols[0]:
         st.markdown(f"""
             <div class="metric-card">
-                <strong>EVolatilidade Histórica</strong>
+                <strong>Volatilidade Histórica</strong>
             </div>
         """, unsafe_allow_html=True)
         st.metric(label="", value=f'{hist * 100:.2f}%')
