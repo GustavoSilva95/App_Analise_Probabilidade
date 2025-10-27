@@ -183,6 +183,7 @@ st.markdown("""
         border-radius: 20px;
         font-weight: 600;
         font-size: 0.9rem;
+        text-align: center;
     }
 
     /* Centraliza o conteúdo do st.metric, mantendo a estilização Streamlit */
