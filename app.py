@@ -454,16 +454,16 @@ if st.session_state.current_tab == 'Probabilidade':
     cols = st.columns(2)
     with cols[0]:
         st.subheader("💰 Preços")
-        preco_atual = st.number_input('Preço Atual (R$)', value=100.0, step=0.1, format="%.2f")
-        menor_preco = st.number_input('Menor Preço-Alvo (R$)', value=90.0, step=0.1, format="%.2f")
-        maior_preco = st.number_input('Maior Preço-Alvo (R$)', value=110.0, step=0.1, format="%.2f")
+        preco_atual = st.number_input('Preço Atual (R$)', value=10.0, step=0.1, format="%.2f")
+        menor_preco = st.number_input('Menor Preço-Alvo (R$)', value=9.0, step=0.1, format="%.2f")
+        maior_preco = st.number_input('Maior Preço-Alvo (R$)', value=11.0, step=0.1, format="%.2f")
     
     with cols[1]:
         st.subheader("⚙️ Parâmetros")
         prazo = st.number_input('Prazo (dias)', value=30, step=1)
         vol = st.number_input('Volatilidade (% a.a.)', value=30.0, step=1.0) / 100
         dias_ano = st.number_input('Dias Úteis no Ano', value=252, step=1)
-        tx_juro = st.number_input('Taxa de Juro (% a.a.)', value=10.0, step=0.1) / 100
+        tx_juro = st.number_input('Taxa de Juro (% a.a.)', value=15.0, step=0.1) / 100
 
     calcular_prob = st.button('🎯 Calcular Probabilidades', use_container_width=True)
 
